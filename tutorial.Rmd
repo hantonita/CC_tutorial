@@ -2,7 +2,7 @@
 title: "Compute Canada Tutorial"
 author: "Hanna Frank"
 date: "15/01/2021"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
