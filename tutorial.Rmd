@@ -91,7 +91,17 @@ The first step is to transfer all the necessary files over to the server. In ord
 On the left under `User sessions`, you should see `PuTTY sessions`. Expand this and double-click on your Compute Canada Session. 
 ![MobaXterm CC](images/MobaXterm_cc.png)
 
-You should now see the file structure on your Compute Canada server account on the left side. Navigate into the `scratch` folder as this is where we will submit the job from. Then click the `upload to current folder` button (the up arrow above your files) and select and upload all the files you will need for your job. If you have a job script (`.sh` file) already, upload this as well. You can put all these files into a subdirectory if you wish. 
+You should now see the file structure on your Compute Canada server account on the left side. 
+
+Navigate into the `scratch` folder as this is where we will submit the job from. YourUserName = your user name below:
+
+`cd ~/scratch/YourUserName/`
+
+or
+
+`cd ~/project/YourUserName/`
+
+Then click the `upload to current folder` button (the up arrow above your files) and select and upload all the files you will need for your job. If you have a job script (`.sh` file) already, upload this as well. You can put all these files into a subdirectory if you wish. 
 ![MobaXterm upload](images/MobaXterm_upload.png)
 
 Next, you need to set up your R environment on the server. You will do this in the terminal open in `MobaXterm`. Begin by loading an R module - there will be several versions available which you can see a list of using the command:  
@@ -124,22 +134,33 @@ At which point you should see something like:
 
 But, often you may see 
 `sbatch: error: Batch script contains DOS line breaks (\r\n)`
+
 or 
+
 `sbatch: error: instead of expected UNIX line breaks (\n).`
+
 Then try
+
 `dos2unix <job filename>`
+
 and then try submitting the job again.
 
 You can check the status of your job by running  
+
 `sq`
+
 or
+
 `squeue -u $USER`  
+
 which should show something like:  
 ![job info](images/job_info.png)   
 You can also check pending or running jobs as follows: YourUserName = your user name below:
 
 `squeue -u YourUserName -t PENDING`
+
 and 
+
 `squeue -u YourUserName -t RUNNING`
 
 Output from your job should be found in whatever directory your job script was in, in a file called `slurm-<job number>.out`. This file will have any console output that you included in the script you ran. If you saved any files from within your R script, you can find these by following the path you saved them to from whatever directory your job script was in. 
