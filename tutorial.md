@@ -11,6 +11,8 @@ system and provide resources for other options.
 
 #### Step 1: Generate SSH keys
 
+##### PuTTY
+
 SSH (Secure Shell) is an encrypted connection used to connect to remote
 servers securely. It uses key pairs to enable remote servers to
 authenticate those attempting to connect to it, without users having to
@@ -69,6 +71,14 @@ other users. You can check that your key has been successfully saved to
 the server by running:
 
     cat ~/.ssh/authorized_keys
+
+##### MobaXterm
+
+Alternatively, try
+[MobaXterm](https://mobaxterm.mobatek.net/download.html) to generate the
+keys. Here is a [video
+tutorial](https://www.youtube.com/watch?v=KRpgYS-eHj8), check out
+[1:20](https://youtu.be/KRpgYS-eHj8?t=80) to 3.45.
 
 #### Step 2: Open a connection to the server
 
@@ -161,6 +171,9 @@ can adapt it for your needs:
     #SBATCH --account=def-ehsanx   # our group name
     #SBATCH --mem-per-cpu=2000M      # memory; default unit is megabytes
     #SBATCH --time=0-00:02           # time (DD-HH:MM)
+    #SBATCH --mail-user=xxx@email.ca   # Replace xxx@email.ca with your email
+    #SBATCH --mail-type=ALL              # This will notify you once the job starts/ends
+    
     module load gcc/7.3.0 r/4.0.2              # Adjust version and add the gcc module used for installing packages.
     
     Rscript simulation.R
@@ -170,10 +183,20 @@ To submit this job, you can run
 At which point you should see something like:  
 ![job submit](images/job_submit.png)
 
+But, often you may see `sbatch: error: Batch script contains DOS line
+breaks (\r\n)` or `sbatch: error: instead of expected UNIX line breaks
+(\n).` Then try `dos2unix <job filename>` and then try submitting the
+job again.
+
 You can check the status of your job by running  
-`squeue -u $USER`  
+`sq` or `squeue -u $USER`  
 which should show something like:  
-![job info](images/job_info.png)
+![job info](images/job_info.png)  
+You can also check pending or running jobs as follows: YourUserName =
+your user name below:
+
+`squeue -u YourUserName -t PENDING` and `squeue -u YourUserName -t
+RUNNING`
 
 Output from your job should be found in whatever directory your job
 script was in, in a file called `slurm-<job number>.out`. This file will
@@ -181,3 +204,7 @@ have any console output that you included in the script you ran. If you
 saved any files from within your R script, you can find these by
 following the path you saved them to from whatever directory your job
 script was in.
+
+Try the following for additional information:
+
+  - [Running jobs](https://docs.computecanada.ca/wiki/Running_jobs)
